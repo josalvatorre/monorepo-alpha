@@ -1,7 +1,8 @@
 bazel_dep(name="rules_oci", version="1.7.5")
 bazel_dep(name="rules_pkg", version="0.10.1")
-use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 
 http_file(
     name="terraform_zip",
@@ -9,3 +10,12 @@ http_file(
     downloaded_file_path="terraform.zip",
     sha256="76668e7742ee8f815fe6de28c8b84507e6171b26966426c2eb8eea8e64fe2f33",
 )
+
+ubuntu_base_name = "ubuntu_base"
+oci.pull(
+    name=ubuntu_base_name,
+    image="docker.io/library/ubuntu",
+    digest="sha256:3f85b7caad41a95462cf5b787d8a04604c8262cdcdf9a472b8c52ef83375fe15",
+    platforms=["linux/arm64/v8"],
+)
+use_repo(oci, ubuntu_base_name)

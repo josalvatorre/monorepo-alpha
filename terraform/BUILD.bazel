@@ -4,6 +4,7 @@ terraform_binary_outs = ["terraform", "LICENSE.txt"]
 genrule(
     name="terraform_binary",
     srcs=["@terraform_zip//file"],
+    visibility=["//visibility:public"],
     outs=terraform_binary_outs,
     cmd="\n".join([
         "unzip -p $(SRCS) {} > $(@D)/{}".format(out, out) for out in terraform_binary_outs
@@ -13,6 +14,7 @@ genrule(
 pkg_tar(
     name="terraform_tar",
     srcs=[":terraform_binary"],
+    visibility=["//visibility:public"],
     package_dir="/",
     mode="0544",
 )
