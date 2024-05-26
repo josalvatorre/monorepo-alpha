@@ -11,8 +11,8 @@ genrule(
 )
 
 pkg_tar(
-    name = "terraform_tar",
-    srcs = [":terraform_binary"],
-    package_dir = "/",
-    mode = "0544",
+    name="terraform_tar",
+    srcs=[":terraform_binary"],
+    package_dir="/",
+    mode="0544",
 )
