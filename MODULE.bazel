@@ -1,6 +1,7 @@
-http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 bazel_dep(name="rules_oci", version="1.7.5")
+bazel_dep(name="rules_pkg", version="0.10.1")
 use_extension("@rules_oci//oci:extensions.bzl", "oci")
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
 http_file(
     name="terraform_zip",

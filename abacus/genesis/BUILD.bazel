@@ -9,6 +9,11 @@ oci_pull(
 )
 
 oci_image(
+    name = "terraform_layer",
+    files = ["//terraform:terraform"],
+)
+
+oci_image(
     name="dev_image", 
     base = ":ubuntu_base",
 )

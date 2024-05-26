@@ -1,6 +1,10 @@
+terraform_binary_outs = ["terraform", "LICENSE.txt"]
+
 genrule(
     name="terraform_binary",
-    srcs = ["@terraform_zip//file"],
-    outs = ["terraform"],
-    cmd = "unzip -p $(SRCS) terraform > $@",
+    srcs=["@terraform_zip//file"],
+    outs=terraform_binary_outs,
+    cmd="\n".join([
+        "unzip -p $(SRCS) {} > $(@D)/{}".format(out, out) for out in terraform_binary_outs
+    ]),
 )
