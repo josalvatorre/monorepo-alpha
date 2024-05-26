@@ -1,0 +1,14 @@
+load("@rules_oci//oci:defs.bzl", "oci_image")
+load("@rules_oci//oci:defs.bzl", "oci_pull")
+
+oci_pull(
+    name="ubuntu_base",
+    registry="docker.io",
+    repository="library/ubuntu",
+    digest="sha256:3f85b7caad41a95462cf5b787d8a04604c8262cdcdf9a472b8c52ef83375fe15",
+)
+
+oci_image(
+    name="dev_image", 
+    base = ":ubuntu_base",
+)

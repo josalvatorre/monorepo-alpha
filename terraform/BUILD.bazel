@@ -1,0 +1,6 @@
+genrule(
+    name="terraform_binary",
+    srcs = ["@terraform_zip//file"],
+    outs = ["terraform"],
+    cmd = "unzip -p $(SRCS) terraform > $@",
+)

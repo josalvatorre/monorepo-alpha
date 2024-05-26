@@ -1,1 +1,10 @@
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+bazel_dep(name="rules_oci", version="1.7.5")
+use_extension("@rules_oci//oci:extensions.bzl", "oci")
 
+http_file(
+    name="terraform_zip",
+    url="https://releases.hashicorp.com/terraform/1.8.4/terraform_1.8.4_linux_arm64.zip",
+    downloaded_file_path="terraform.zip",
+    sha256="76668e7742ee8f815fe6de28c8b84507e6171b26966426c2eb8eea8e64fe2f33",
+)
