@@ -28,4 +28,5 @@ oci_tarball(
     name="genesis",
     image=":source_code_layer",
     repo_tags="genesis-repo-tags.txt",
+    format="docker",
 )
