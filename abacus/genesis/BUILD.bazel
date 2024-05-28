@@ -1,4 +1,15 @@
 load("@rules_oci//oci:defs.bzl", "oci_image")
+load("@rules_pkg//pkg:pkg.bzl", "pkg_tar")
+
+pkg_tar(
+    name="genesis_tar",
+    srcs=[
+        "main.tf",
+        "variables.tf",
+        "outputs.tf",
+    ],
+    package_dir="/genesis",
+)
 
 oci_image(
     name="terraform_layer",
@@ -7,6 +18,7 @@ oci_image(
 )
 
 oci_image(
-    name="dev_image", 
-    base=":ubuntu_base",
+    name="source_code_layer",
+    base=":terraform_layer",
+    tars=[":genesis_tar"],
 )

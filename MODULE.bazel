@@ -1,4 +1,5 @@
 bazel_dep(name="rules_oci", version="1.7.5")
+# Documentation: https://bazelbuild.github.io/rules_pkg/latest.html#pkg_tar
 bazel_dep(name="rules_pkg", version="0.10.1")
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")

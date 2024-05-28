@@ -14,7 +14,7 @@ and speed.
 
 ### GitHub Actions
 
-We only use GitHub Actions as a "first mover". Our GitHub Actions workflows create
+We only use GitHub Actions as a "first mover" workflow system. Our GitHub Actions workflows create
 the "real" workflows defined in Terraform, which can't launch themselves.
 
 We use Terraform as much as possible for reasons stated in the Terraform section.
@@ -23,12 +23,28 @@ GitHub Actions workflows can be defined declaratively in the codebase itself and
 manual setup. GitHub Actions are also super-popular, so they're relatively easy to understand
 and find.
 
-### Tools we did *not* end up using
-
 ### Terraform Cloud
 
-This was tempting given our embrace of Terraform. However, we're also using SST Ion.
-SST Ion admittedly uses Terraform (and Pulumi) under the hood, but Terraform Cloud
-doesn't support managed deployments to our knowledge. Therefore, instead of adding yet
-another tool to our tech stack that only serves some of our use case,
-we'll adopt the same non-managed strategy across the board.
+We use Terraform Cloud for use cases that use plain Terraform as opposed to SST Ion.
+Terraform Cloud handles security and manual intervention features that would otherwise be
+a pain to implement ourselves.
+
+## Infrastructure as Code
+
+### Terraform
+
+Terraform is a wonderful tool for defining infrastructure declaratively.
+It's far more powerful than AWS's CloudFormation and CDK, which are tied to AWS and
+mostly work within a single AWS region. Terraform also has a great config language that
+is far more expressive than CloudFormation's YAML but still retains the safety of
+a non-turing-complete config language.
+
+We mostly use SST Ion for the app itself, but there are situations where SST isn't nedessary.
+We use plain Terraform for those situations. SST Ion uses it under the hood (along with Pulumi),
+so sticking with Terraform will not pollute our tech stack with much more complexity
+than a completely different solution.
+
+It's not clear that Terraform is better than Pulumi, but Terraform's config language seems
+safer than Pulumi's embrace of turing-complete languages.
+We also happen to have slightly more experience with Terraform than Pulumi,
+and researching Pulumi didn't seem worthwhile.
