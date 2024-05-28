@@ -48,3 +48,16 @@ It's not clear that Terraform is better than Pulumi, but Terraform's config lang
 safer than Pulumi's embrace of turing-complete languages.
 We also happen to have slightly more experience with Terraform than Pulumi,
 and researching Pulumi didn't seem worthwhile.
+
+## Containerization
+
+### Docker
+
+We mostly use Bazel to build images instead of Docker because of Bazel's strictness around hermeticity.
+If you have a Dockerfile that calls `apt install ...`, then you're simply downloading the latest artifacts.
+That's not as hermetic as Bazel's approach.
+
+However, we sometimes use Docker as the container execution engine, especially for local development
+where we want to take an image built by Bazel and add customizations such as source code volumes
+that won't actually be deployed to a production environment. There are no Bazel rules today
+that can supplement that use case easily.

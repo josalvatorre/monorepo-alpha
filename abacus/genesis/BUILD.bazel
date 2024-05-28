@@ -1,8 +1,9 @@
 load("@rules_oci//oci:defs.bzl", "oci_image")
+load("@rules_oci//oci:defs.bzl", "oci_tarball")
 load("@rules_pkg//pkg:pkg.bzl", "pkg_tar")
 
 pkg_tar(
-    name="genesis_tar",
+    name="source_code_tar",
     srcs=[
         "main.tf",
         "variables.tf",
@@ -20,5 +21,11 @@ oci_image(
 oci_image(
     name="source_code_layer",
     base=":terraform_layer",
-    tars=[":genesis_tar"],
+    tars=[":source_code_tar"],
+)
+
+oci_tarball(
+    name="genesis",
+    image=":source_code_layer",
+    repo_tags="genesis-repo-tags.txt",
 )
