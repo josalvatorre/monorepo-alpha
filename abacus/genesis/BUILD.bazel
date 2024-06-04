@@ -1,6 +1,9 @@
+load("@container_structure_test//:defs.bzl", "container_structure_test")
 load("@rules_oci//oci:defs.bzl", "oci_image")
 load("@rules_oci//oci:defs.bzl", "oci_tarball")
 load("@rules_pkg//pkg:pkg.bzl", "pkg_tar")
+
+ubuntu_user_and_group = "ubuntu:ubuntu"
 
 pkg_tar(
     name="source_code_tar",
@@ -16,17 +19,25 @@ oci_image(
     name="terraform_layer",
     base="@ubuntu_base",
     tars=["//terraform:terraform_tar"],
+    user=ubuntu_user_and_group,
 )
 
 oci_image(
     name="source_code_layer",
     base=":terraform_layer",
     tars=[":source_code_tar"],
+    user=ubuntu_user_and_group,
 )
 
 oci_tarball(
-    name="genesis",
+    name="genesis_image_tarball",
     image=":source_code_layer",
     repo_tags="genesis-repo-tags.txt",
-    format="docker",
+)
+
+container_structure_test(
+    name="genesis_image_tarball_test",
+    configs=["genesis-test.yaml"],
+    image=":genesis_image_tarball",
+    driver="tar",
 )
