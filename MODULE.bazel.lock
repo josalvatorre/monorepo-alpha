@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 6,
-  "moduleFileHash": "30e8aaa002492ece44593ea65b9ffbffde33f72d91476ea65c1dcb475d952e00",
+  "moduleFileHash": "03634557ae3bf17478f7aa37331490b53345ed764ed4115af9abd6b5aca00b94",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -95,7 +95,7 @@
       ],
       "deps": {
         "container_structure_test": "container_structure_test@1.16.0",
-        "rules_oci": "rules_oci@2.0.0-alpha2",
+        "rules_oci": "rules_oci@2.0.0-alpha5",
         "rules_pkg": "rules_pkg@0.10.1",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
@@ -152,10 +152,10 @@
         }
       }
     },
-    "rules_oci@2.0.0-alpha2": {
+    "rules_oci@2.0.0-alpha5": {
       "name": "rules_oci",
-      "version": "2.0.0-alpha2",
-      "key": "rules_oci@2.0.0-alpha2",
+      "version": "2.0.0-alpha5",
+      "key": "rules_oci@2.0.0-alpha5",
       "repoName": "rules_oci",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [
@@ -167,9 +167,9 @@
         {
           "extensionBzlFile": "@rules_oci//oci:extensions.bzl",
           "extensionName": "oci",
-          "usingModule": "rules_oci@2.0.0-alpha2",
+          "usingModule": "rules_oci@2.0.0-alpha5",
           "location": {
-            "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+            "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
             "line": 14,
             "column": 20
           },
@@ -184,7 +184,7 @@
               "attributeValues": {},
               "devDependency": false,
               "location": {
-                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
                 "line": 15,
                 "column": 15
               }
@@ -196,9 +196,9 @@
         {
           "extensionBzlFile": "@aspect_bazel_lib//lib:extensions.bzl",
           "extensionName": "toolchains",
-          "usingModule": "rules_oci@2.0.0-alpha2",
+          "usingModule": "rules_oci@2.0.0-alpha5",
           "location": {
-            "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+            "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
             "line": 21,
             "column": 21
           },
@@ -214,7 +214,7 @@
               "attributeValues": {},
               "devDependency": false,
               "location": {
-                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
                 "line": 22,
                 "column": 10
               }
@@ -224,7 +224,7 @@
               "attributeValues": {},
               "devDependency": false,
               "location": {
-                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
                 "line": 28,
                 "column": 13
               }
@@ -234,7 +234,7 @@
               "attributeValues": {},
               "devDependency": false,
               "location": {
-                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/MODULE.bazel",
+                "file": "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/MODULE.bazel",
                 "line": 29,
                 "column": 14
               }
@@ -257,12 +257,12 @@
         "ruleClassName": "http_archive",
         "attributes": {
           "urls": [
-            "https://github.com/bazel-contrib/rules_oci/releases/download/v2.0.0-alpha2/rules_oci-v2.0.0-alpha2.tar.gz"
+            "https://github.com/bazel-contrib/rules_oci/releases/download/v2.0.0-alpha5/rules_oci-v2.0.0-alpha5.tar.gz"
           ],
-          "integrity": "sha256-6W1w+qS6zj4J/bHX0UQbg4kg9JFYiIn/mn4mFa/KV5k=",
-          "strip_prefix": "rules_oci-2.0.0-alpha2",
+          "integrity": "sha256-dozSPV/qAjWFjuz8i/qud6Ef6dueuxrAPTHEsZ65vBE=",
+          "strip_prefix": "rules_oci-2.0.0-alpha5",
           "remote_patches": {
-            "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha2/patches/module_dot_bazel_version.patch": "sha256-Az70I/uH3CPt3PF1TchgMw5bX1DkxYvQKKDa5Ycmh6g="
+            "https://bcr.bazel.build/modules/rules_oci/2.0.0-alpha5/patches/module_dot_bazel_version.patch": "sha256-Lnr8UggkNDh8ZuySwCkZoZf85VKb5e6zt6P/4ct4e+o="
           },
           "remote_patch_strip": 1
         }
@@ -2638,7 +2638,7 @@
     },
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
-        "bzlTransitiveDigest": "IIiKphRNqUgiP5gUb4jGWullg+363TwHUDa3c/pv4ZQ=",
+        "bzlTransitiveDigest": "FnriiaxB5Ml/R7xhxlTzn6z40nRHzJ+SLbxdCH8mjPw=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -2779,7 +2779,8 @@
               "repository": "library/ubuntu",
               "identifier": "sha256:3f85b7caad41a95462cf5b787d8a04604c8262cdcdf9a472b8c52ef83375fe15",
               "platform": "linux/arm64/v8",
-              "target_name": "ubuntu_base_linux_arm64_v8"
+              "target_name": "ubuntu_base_linux_arm64_v8",
+              "bazel_tags": []
             }
           },
           "oci_regctl_linux_s390x": {
@@ -3077,7 +3078,8 @@
         },
         "moduleExtensionMetadata": {
           "explicitRootModuleDirectDeps": [
-            "ubuntu_base"
+            "ubuntu_base",
+            "ubuntu_base_linux_arm64_v8"
           ],
           "explicitRootModuleDirectDevDeps": [],
           "useAllRepos": "NO",
