@@ -23,7 +23,8 @@ We mostly use Bazel to build images instead of Docker because of Bazel's strictn
 If you have a Dockerfile that calls `apt install ...`, then you're simply downloading the latest artifacts.
 That's not as hermetic as Bazel's approach.
 
-However, [Bazel's rules_oci][1] assume that the base image already exists in some repository.
-We therefore need to build the base images ourselves using Docker.
+However, [Bazel's rules_oci][1] mostly assume that the base image already exists,
+and Dockerfiles are just much more flexible for creating the base image.
+We therefore use plain Docker to create the base images.
 
 [1]: https://github.com/bazel-contrib/rules_oci
