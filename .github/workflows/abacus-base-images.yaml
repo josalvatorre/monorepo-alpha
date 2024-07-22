@@ -41,6 +41,6 @@ jobs:
           context: ${{ matrix.image.full_path }}
           push: false
           platforms: linux/arm64
-          tags: ${{ github.repository }}:${{ github.sha }}-${{ matrix.image.key }}
+          tags: ${{ github.repository }}:${{ github.sha }}-${{ matrix.image.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

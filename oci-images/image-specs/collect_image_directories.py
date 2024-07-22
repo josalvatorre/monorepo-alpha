@@ -34,14 +34,15 @@ if __name__ == '__main__':
         f'Expected working directory to be repo root but was {pathlib.Path.cwd()} instead'
     )
     print(json.dumps(
-        {
-            path.name: {
+        [
+            {
+                "name": path.name,
                 "full_path": str(path),
             }
             for path in _get_subdirectories_with_dockerfiles(
                 image_specs_directory=pathlib.PosixPath('./oci-images/image-specs'),
             )
-        },
+        ],
         sort_keys=True,
         # We don't use indenting so that there's no multiline parsing required.
     ))
