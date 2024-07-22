@@ -11,24 +11,24 @@ jobs:
   collect-image-dirs:
     runs-on: ubuntu-latest
     outputs:
-      image_dirs: ${{ steps.collect-dirs.outputs.dirs }}
+      image_specs: ${{ steps.collect-dirs.outputs.specs }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: "3.12"
       - name: Collect image directories
         id: collect-dirs
         run: |
-          dirs=$(python ./oci-images/image-specs/collect_image_directories.py)
-          echo "dirs=$dirs" >> $GITHUB_OUTPUT
+          specs=$(python ./oci-images/image-specs/collect_image_directories.py)
+          echo "specs=$specs" >> $GITHUB_OUTPUT
   build-images:
     needs: collect-image-dirs
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image_dir: ${{ fromJson(needs.collect-image-dirs.outputs.image_dirs) }}
+        image: ${{ fromJson(needs.collect-image-dirs.outputs.image_specs) }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
@@ -38,9 +38,9 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v4
         with:
-          context: ${{ matrix.image_dir }}
+          context: ${{ matrix.image.full_path }}
           push: false
           platforms: linux/arm64
-          tags: ${{ github.repository }}:${{ github.sha }}-${{ matrix.image_dir }}
+          tags: ${{ github.repository }}:${{ github.sha }}-${{ matrix.image.key }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
