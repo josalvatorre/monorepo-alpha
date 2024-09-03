@@ -12,7 +12,7 @@ for fixes and for final approval for sensitive cases like infrastructure deploym
 Abacus should have its own AWS organization. We should be able to manage its child accounts through Terraform deployments.
 Engineers should sign in through the [AWS Identity Center][1].
 
-After we slash the manual steps, GitHub Actions should be able to do the following.
+Our GitHub Actions workflows should be able to do the following.
 
 * Block PR merge if an OCI image cannot be built.
 * On merge, build and push the new OCI image to the public ECR repository.
