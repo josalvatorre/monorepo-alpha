@@ -1,7 +1,7 @@
 # Genesis
 
 Genesis is our "first mover" CI/CD system. It automates the deployment of base images
-for Bazel to consume and the Terraform deployment for our infrasructure.
+for Bazel to consume and our Terraform-defined infrasructure.
 The automation is orchestrated using GitHub Actions.
 
 ## Design
