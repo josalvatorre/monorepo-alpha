@@ -18,9 +18,9 @@ Our GitHub Actions workflows should be able to do the following.
 * On merge, build and push the new OCI image to the public ECR repository.
 * Deploy Terraform code to manage the AWS organization after pushing the image.
 
-Docker needs to build the OCI image, not Bazel. This is because Bazel's [rules_oci][2]
-cannot create base images. This is presumably because Dockerfiles allow you to run arbitrary commands,
-and so they are not hermetic.
+Docker needs to build the OCI image, not Bazel. That's because Bazel's [rules_oci][2]
+cannot create base images, presumably because Dockerfiles allow you to run arbitrary commands,
+rendering them non-hermetic.
 
 ### Why not use AWS CodePipeline defined in Terraform?
 
