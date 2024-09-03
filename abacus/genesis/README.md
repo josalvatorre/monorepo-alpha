@@ -29,8 +29,9 @@ absolve the need to add another technology (i.e. GitHub Actions) to our tech sta
 
 However, if we use AWS CodePipeline to make Terraform deployments to the AWS organization,
 that would be a soft circular dependency. If something goes wrong with the pipeline,
-the pipeline might not be able to deploy the fix. We therefore think it's better to let
-GitHub Actions be the first mover. We'll use AWS CodePipeline for all other downstream pipelines.
+the pipeline might not be able to deploy the fix to itself. It's therefore better to let
+GitHub Actions be the first mover given that GitHub automatically updates them.
+We can still use AWS CodePipeline for all other pipeline use cases.
 
 ## Plan for implementing Continuous Integratino and Continuous Delivery
 
