@@ -1,48 +1,59 @@
 # Genesis
 
 Genesis manages our platform infrastructure. It automates the deployment of base images
-for Bazel to consume and our Terraform-defined infrasructure.
-The automation is orchestrated using GitHub Actions.
+for Bazel to consume and our Terraform-defined infrastructure.
+GitHub Actions orchestrates these deployments.
 
 ## Background
 
-### Platform infrasructure vs app infrasructure
+### Platform infrastructure vs app infrastructure
 
-We can divide infrasructure into two parts: platform and app. Genesis handles platform infrastructure.
+We can divide infrastructure into two parts: platform and app.
+Genesis handles platform infrastructure.
 
-App infrastructure includes all of the resources (mostly AWS resources such as databases and servers)
-required to run the app in a single stage (e.g. production). We'll define it in SST v3 Ion.
+App infrastructure includes all of the resources (mainly AWS resources such as databases and servers)
+required to run the app in a single stage (e.g., production). We'll define it in SST v3 Ion.
 
-Platform infrastructure is the cross-stage infrastructure. It includes AWS account definitions,
-CI/CD pipelines for deploying the app infrastructure, and container images for Bazel to consume.
+Platform infrastructure is the cross-stage infrastructure.
+It includes AWS account definitions, CI/CD pipelines for deploying the app infrastructure,
+and container images for Bazel to consume.
 
 ### How Bazel builds container images
 
-To build an OCI image with Bazel, you need a base image already available locally or a remote repository.
-You reference that base image using the ["oci pull" rule from `rules_oci`][4].
-This is secured through checksum validation. It shouldn't be possible for Bazel to conume the wrong image.
-After doing that, you can freely build on top of it using other `rules_oci` rules.
+To build an OCI image with Bazel, you need a base image that is available locally
+or through a remote repository. Only then can Bazel create new images with additional layers
+on top of that base image.
+
+@josalvatorre thinks this limitation of being unable to build base images is because
+Bazel's hermeticity restriction would make it extremely difficult to cover
+every use case that Dockerfile can cover. Dockerfiles can execute arbitrary code,
+making them more powerful but non-hermetic and incompatible with Bazel.
+
+You reference the base image using the ["oci pull" rule from `rules_oci`][4] at the monorepo root level.
+The pulling process is secured by checksum validation, so it should be impossible for Bazel
+to conume the wrong image.
 
 ## Design
 
 ### Requirements
 
 We need a system to automatically create OCI images and upload them into a public ECR repository
-for Bazel to consume. The ECR repository is public so that anybody with access to the code can
+for Bazel to consume. The ECR repository is public so anybody with access to the code can
 use its images.
 
-The system also needs to manage our [AWS organization][3] and engineer auth.
+The system must also manage our [AWS organization][3] and engineer auth.
 Engineers should sign in through the [AWS Identity Center][1].
 Creating a new AWS account should be a matter of code changes.
 
-Infrastructure should be defined in Terraform code. The deployment should happen in a predefined environment,
+Infrastructure should be defined as Terraform code.
+The deployment should happen in a predefined environment,
 preferably in a container so that an engineer can develop locally.
 
 ### Workflows
 
 Our GitHub Actions workflows should be able to do the following.
 
-* Block PR merge if an OCI image cannot be built.
+* Block PR merge if the base image fails to build.
 * On merge, re-build and push the new OCI image to the public ECR repository.
 * Deploy Terraform code to manage the AWS organization after pushing the image.
 
