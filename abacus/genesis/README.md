@@ -101,7 +101,7 @@ be the same as the root account.
 We face a chicken-and-egg problem because we need to set up AWS auth
 before Terraform can manage AWS resources, but we want Terraform to manage AWS resources (including auth).
 We also want Terraform to run in a container, but Terraform needs to define the ECR repositories that host the container images.
-We resolve this by first manually set up auth and the first image, and then come back to automate these
+We'll resolve this by first manually setting up auth and the first image and then come back to automate these
 after Terraform deployments are automated.
 
 ### Plan
@@ -109,15 +109,15 @@ after Terraform deployments are automated.
 We'll perform the following steps in order.
 
 - [x] AWS organization and root account are set up.
-- [x] Public ECR repository is set up in a dedicated AWS account under the organization.
-- [ ] Main branch has code for Engineer to manually build the final image.
+- [x] The public ECR repository is set up in a dedicated AWS account within the organization.
+- [ ] The main branch has code for the Engineer to build the final image manually.
     * Codebase has a Dockerfile to build the first base image.
-    * Engineer has to manually build and puth the image to the public ECR repository.
+    * The engineer has to manually build and push the image to the public ECR repository.
     * Terraform code is in a Bazel package with GitHub-enforced linting.
         * Linting should happen before and after each merge to the main branch.
         * Terraform code can be trivial in this milestone.
-    * Codebase has Bazel and Terraform code to build final image.
-- [ ] Main branch has code for an engineer to manually make a Terraform deployment.
+    * Codebase has Bazel and Terraform code to build the final image.
+- [ ] The main branch has code for an engineer to make a Terraform deployment manually.
     * Terraform code should define the AWS organization and AWS repository.
 - [ ] GitHub Actions can automatically push new base images and make Terraform deployments.
     * We wanted to separate the automatic pushing of base images into its own milestone.
