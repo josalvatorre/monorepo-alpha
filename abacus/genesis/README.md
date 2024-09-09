@@ -12,11 +12,13 @@ We can divide infrastructure into two parts: platform and app.
 Genesis handles platform infrastructure.
 
 App infrastructure includes all of the resources (mainly AWS resources such as databases and servers)
-required to run the app in a single stage (e.g., production). We'll define it in SST v3 Ion.
+required to run the app in a single stage (e.g., production). We'll define it in SST v3 Ion,
+which has powerful features for development such as live reloading.
 
 Platform infrastructure is the cross-stage infrastructure.
 It includes AWS account definitions, CI/CD pipelines for deploying the app infrastructure,
-and container images for Bazel to consume.
+and container images for Bazel to consume. We'll define it in [Terraform][5],
+which is simpler than SST and uses a simpler declarative language than SST.
 
 ### How Bazel builds container images
 
@@ -128,3 +130,4 @@ We'll perform the following steps in order.
 [2]: https://github.com/bazel-contrib/rules_oci
 [3]: https://docs.aws.amazon.com/organizations/
 [4]: https://github.com/bazel-contrib/rules_oci/blob/5ff4c792cab77011984ca2fe46d05c5d2f8caa47/docs/pull.md
+[5]: https://www.terraform.io/
