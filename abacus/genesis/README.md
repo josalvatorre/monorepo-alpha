@@ -38,14 +38,13 @@ to conume the wrong image.
 ### Requirements
 
 We need a system to automatically create OCI images and upload them into a public ECR repository
-for Bazel to consume. The ECR repository is public so anybody with access to the code can
-use its images.
+for Bazel to consume. The ECR repository should be public so that anybody can run our code.
 
-The system must also manage our [AWS organization][3] and engineer auth.
-Engineers should sign in through the [AWS Identity Center][1].
+The system must also manage our [AWS organization][3] and auth for engineers.
+Engineers should sign in and obtain credentials through the [AWS Identity Center][1].
 Creating a new AWS account should be a matter of code changes.
 
-Infrastructure should be defined as Terraform code.
+Terraform code should define our infrastructure.
 The deployment should happen in a predefined environment,
 preferably in a container so that an engineer can develop locally.
 
@@ -57,20 +56,17 @@ Our GitHub Actions workflows should be able to do the following.
 * On merge, re-build and push the new OCI image to the public ECR repository.
 * Deploy Terraform code to manage the AWS organization after pushing the image.
 
-Docker builds the OCI image, not Bazel, because Bazel's [rules_oci][2]
-cannot create base images. This is presumably because Dockerfiles allow you to run arbitrary commands,
-rendering them non-hermetic, making them incompatible with Bazel.
-
 #### Testing
 
 Testing the images isn't necessary because they won't get used until Bazel consumes them.
-Our tests will run on any images that Bazel consumes. That's out of scope for Genesis.
+Our tests will run on any images that Bazel creates. That's out of scope for Genesis.
 We'll probably decide to deploy those Bazel-built images in a separate workflow system such as
 AWS CodePipeline.
 
 Testing Terraform code would have some value, especially for auth, which is high-stakes and could fail silently.
-However, unit tests have limited value for testing Terraform, and integration tests would take immense effort and (possibly) cost.
-Genesis should handle very little Terraform code, makin it easy to inspect manually.
+However, unit tests have limited value for testing Terraform,
+and integration tests would take immense effort and (possibly) cost.
+Genesis should handle very little Terraform code, making it easy to inspect manually.
 We will inspect deployments manually for now.
 
 #### Why not use AWS CodePipeline defined in Terraform?
