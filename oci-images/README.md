@@ -22,7 +22,7 @@ and another to reference the new base image.
 
 ## How do base images get created?
 
-We use a GitHub Actions workflow to build and push the images out into a publicly-readable repository.
+We plan to use a GitHub Actions workflow to build and push the images out into a publicly-readable repository.
 Look under `.github/workflows/`.
 
 [1]: https://github.com/bazel-contrib/rules_oci
