@@ -1,15 +1,20 @@
 # Principles
 
 @josalvatorre believes in strictly adhering to the following principles.
-They lead to higher upfront cost, but they pay immense dividends that
-make life easier for all contributors, especially those with less experiense
+They lead to higher upfront costs but pay immense dividends that
+make life easier for all contributors, especially those with less experience
 and context.
 
 ## Optimize for the long term
 
-The road to despair is paved with short-term optimizations. It's easy and fast to skip writing tests, write low-quality code,
-do things manually instead of automating them, skip documentation, etc. Doing these will make you feel like a
-rock star in the short term. They'll impress non-engineers and might even get you promoted early in your career.
+Short-term optimization paves the road to despair.
+We don't want to be in a situation where engineers constantly waste time
+on unnecessary problems and are lost due to a lack of information.
+
+It's easy and fast to skip writing tests, write low-quality code,
+do things manually instead of automating them, skip documentation, etc.
+Doing these will make you feel like a rock star in the short term.
+They'll impress non-engineers and might even get you promoted early in your career.
 
 However, done correctly, all of those best practices pay for themselves many times over in the long term.
 Not only will they save you time, but they will also lead to higher-quality results.
