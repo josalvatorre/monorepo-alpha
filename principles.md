@@ -45,7 +45,7 @@ Every difference between environments makes predictability, development, and deb
 [OCI][1] Containers are the best tool for guaranteeing that the environment will be consistent and predictable.
 
 Every commit in the main branch should map to a consistent set of publicly accessible container images we generate.
-Requiring developers to generate container images independently defeats the purpose of containers.
+Requiring developers to create container images independently defeats the purpose of containers.
 
 The only exception to containerization is if you're writing a program for a client that cannot run a container practicably
 such as the browser, mobile device, or a resource-constrained device.
