@@ -72,12 +72,13 @@ We will inspect deployments manually for now.
 #### Why not use AWS CodePipeline defined in Terraform?
 
 We're already embracing Terraform and AWS, so implementing CI/CD using AWS CodePipeline would
-absolve the need to add another technology (i.e. GitHub Actions) to our tech stack.
+absolve the need to add another technology (i.e., GitHub Actions) to our tech stack.
 
-However, if we use AWS CodePipeline to make Terraform deployments to the AWS organization,
-that would be a soft circular dependency. If something goes wrong with the pipeline,
-the pipeline might not be able to deploy the fix to itself. It's therefore better to let
-GitHub Actions be the first mover given that GitHub automatically updates them.
+However, using AWS CodePipeline to make Terraform deployments to the AWS organization
+would cause a circular dependency. If the pipeline breaks,
+it may not be able to deploy a fix to itself. GitHub Actions doesn't have this problem
+because GitHub is responsible for deploying changes to the workflow.
+
 We can still use AWS CodePipeline for all other pipeline use cases.
 
 ### The AWS organization
