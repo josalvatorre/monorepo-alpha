@@ -84,21 +84,22 @@ We can still use AWS CodePipeline for all other pipeline use cases.
 ### The AWS organization
 
 An [AWS organization][3] is a set of AWS accounts. One of these is the root account.
-Having an organization allows us to dynamically create new ones using Terraform.
-It also allows us to set common policies and manage auth across accounts.
+Having an organization allows us to create new accounts dynamically using Terraform.
+It also allows us to enforce policies and manage auth across accounts.
 
-The organization will evolve based on our needs. To introduce Genesis, we will have the following simple structure.
+The organization will evolve based on our needs.
+However, we only need the following simple structure to set up Genesis.
 
 * @josalvatorre should be able to log into the different accounts through the identity center.
-* We should have a dedicated AWS account for our publicly-available ECR repositories. This should **_not_**
+* We should have a dedicated AWS account for our public ECR repositories. This should **_not_**
 be the same as the root account.
 
 ## Implementation plan
 
 ### Problem
 
-There's unfortunately a chicken-and-egg problem where AWS auth needs to be set up before Terraform
-can manage AWS resources but we want AWS resources (including auth) to be managed by Terraform.
+We face a chicken-and-egg problem because we need to set up AWS auth
+before Terraform can manage AWS resources, but we want Terraform to manage AWS resources (including auth).
 We also want Terraform to run in a container, but Terraform needs to define the ECR repositories that host the container images.
 We resolve this by first manually set up auth and the first image, and then come back to automate these
 after Terraform deployments are automated.
