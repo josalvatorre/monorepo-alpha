@@ -53,10 +53,10 @@ such as the browser, mobile device, or a resource-constrained device.
 ## Use Bazel as much as possible
 
 [Bazel][2] is an open-source hermetic build system for arbitrary program types.
-It doesn't guarantee universally consistent outputs, but it does guarantee that the same input produces the same output.
+It doesn't guarantee universally consistent outputs but ensures that the same input produces the same output.
 This guarantee also allows for aggressive caching and incremental builds, making it faster than other build systems.
 
-There are similar tools such as Buck and Pants. @josalvatorre chose Bazel based on its apparent popularity
+There are similar tools, such as Buck and Pants. @josalvatorre chose Bazel based on its apparent popularity
 and because his workplace uses it, so learning it would help him there.
 
 [1]: https://opencontainers.org/
