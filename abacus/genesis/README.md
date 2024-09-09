@@ -58,12 +58,12 @@ Our GitHub Actions workflows should be able to do the following.
 
 #### Testing
 
-Testing the images isn't necessary because they won't get used until Bazel consumes them.
-Our tests will run on any images that Bazel creates. That's out of scope for Genesis.
-We'll probably decide to deploy those Bazel-built images in a separate workflow system such as
-AWS CodePipeline.
+Testing the images isn't necessary because they will only get used once Bazel consumes them.
+Our tests will run on any images that Bazel creates. That's out of the scope of Genesis.
+We'll probably decide to deploy those Bazel-built images in a separate workflow system,
+such as AWS CodePipeline.
 
-Testing Terraform code would have some value, especially for auth, which is high-stakes and could fail silently.
+Testing Terraform code would have some value, especially for auth, which is critical and could fail silently.
 However, unit tests have limited value for testing Terraform,
 and integration tests would take immense effort and (possibly) cost.
 Genesis should handle very little Terraform code, making it easy to inspect manually.
