@@ -1,0 +1,9 @@
+load("@rules_oci//oci:defs.bzl", "oci_image")
+
+user_and_group_1000 = "1000:1000"
+oci_image(
+    name="terraform_layer",
+    base="@genesis_base_latest",
+    tars=["//terraform:terraform_tar"],
+    user=user_and_group_1000,
+)

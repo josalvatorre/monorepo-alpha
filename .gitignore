@@ -1,3 +1,6 @@
-venv/
 .env
 .env.leave
+bazel-*
+blobs/
+manifest.json
+venv/

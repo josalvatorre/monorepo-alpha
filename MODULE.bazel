@@ -1,0 +1,25 @@
+bazel_dep(name="rules_oci", version="2.0.0")
+bazel_dep(name="rules_pkg", version="0.10.1")
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+http_file(
+    name="terraform_zip",
+    url="https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_arm64.zip",
+    downloaded_file_path="terraform.zip",
+    sha256="adb3206971bc73fd37c7b50399ef79fe5610b03d3f2d1783d91e119422a113fd",
+)
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+oci.pull(
+    name="genesis_base_latest",
+    digest="sha256:949798aaf8bb8bd43299ffd40f76e178e8de356f2c47ebf740713e55894aed8b",
+    image="public.ecr.aws/b1l7c9m5/genesis/base:latest",
+    platforms=[
+        "linux/arm64/v8",
+    ],
+)
+use_repo(
+    oci,
+    "genesis_base_latest",
+    "genesis_base_latest_linux_arm64_v8",
+)
