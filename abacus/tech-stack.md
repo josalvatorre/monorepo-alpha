@@ -2,6 +2,16 @@
 
 This document covers the tools used for the Abacus project.
 
+## Building
+
+### Bazel
+
+Bazel is the open source version of Google's monorepo build tool.
+It's not tied to any specific language and works with any toolchain you want.
+It offers hermetic builds, which meant that the build output will only change if
+the either the code or build tools change. This allows for stability, flexibility,
+and speed.
+
 ## CI/CD
 
 ### GitHub Actions
