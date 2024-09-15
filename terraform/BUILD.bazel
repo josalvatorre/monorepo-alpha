@@ -16,4 +16,5 @@ pkg_tar(
     visibility=["//visibility:public"],
     package_dir="/terraform",
     mode="0544",
+    owner="1000.1000",
 )
