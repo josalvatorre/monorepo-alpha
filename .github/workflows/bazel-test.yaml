@@ -1,0 +1,24 @@
+---
+name: Bazel Test
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  bazel-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.8.5
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+      - name: Run All Bazel Tests
+        run: bazel test //...
+      - name: Check Test Result
+        if: failure()
+        run: |
+          echo "One or more Bazel tests failed. This PR cannot be merged."
+          exit 1
