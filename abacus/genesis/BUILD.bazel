@@ -13,6 +13,8 @@ oci_image(
 pkg_tar(
     name="source_code_tar",
     package_dir="/genesis",
+    mode="0444",
+    owner="1000.1000",
     srcs=[
         "main.tf",
         "variables.tf",

@@ -7,3 +7,21 @@ fileExistenceTests:
   uid: 1000
   gid: 1000
   isExecutableBy: 'owner'
+- name: 'main.tf'
+  path: '/genesis/main.tf'
+  shouldExist: true
+  permissions: '-r--r--r--'
+  uid: 1000
+  gid: 1000
+- name: 'variables.tf'
+  path: '/genesis/variables.tf'
+  shouldExist: true
+  permissions: '-r--r--r--'
+  uid: 1000
+  gid: 1000
+- name: 'outputs.tf'
+  path: '/genesis/outputs.tf'
+  shouldExist: true
+  permissions: '-r--r--r--'
+  uid: 1000
+  gid: 1000
