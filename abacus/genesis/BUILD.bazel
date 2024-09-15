@@ -33,5 +33,5 @@ container_structure_test(
 oci_load(
     name="genesis_image",
     image=":source_code_layer",
-    repo_tags=["public.ecr.aws/b1l7c9m5/genesis/latest"],
+    repo_tags=["public.ecr.aws/b1l7c9m5/genesis:latest"],
 )
