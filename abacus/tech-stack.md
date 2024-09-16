@@ -12,19 +12,6 @@ It offers hermetic builds, which meant that the build output will only change if
 the either the code or build tools change. This allows for stability, flexibility,
 and speed.
 
-## CI/CD
-
-### GitHub Actions
-
-We only use GitHub Actions as a "first mover" workflow system. Our GitHub Actions workflows create
-the "real" workflows defined in Terraform, which can't launch themselves.
-
-We use Terraform as much as possible for reasons stated in the Terraform section.
-We only use GitHub Actions because, unlike alternative first mover solutions,
-GitHub Actions workflows can be defined declaratively in the codebase itself and require minimal
-manual setup. GitHub Actions are also super-popular, so they're relatively easy to understand
-and find.
-
 ## Containerization
 
 ### Docker
