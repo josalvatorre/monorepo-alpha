@@ -1,8 +1,7 @@
 # Genesis
 
-Genesis manages our platform infrastructure. It automates the deployment of base images
-for Bazel to consume and our Terraform-defined infrastructure.
-GitHub Actions orchestrates these deployments.
+Genesis manages our platform infrastructure. It consists of Terraform code
+deployed using [HCP Terraform's VCS-driven workflow option][6].
 
 ## Background
 
@@ -20,68 +19,62 @@ It includes AWS account definitions, CI/CD pipelines for deploying the app infra
 and container images for Bazel to consume. We'll define it in [Terraform][5],
 which is simpler than SST and uses a simpler declarative language than SST.
 
-### How Bazel builds container images
-
-To build an OCI image with Bazel, you need a base image that is available locally
-or through a remote repository. Only then can Bazel create new images with additional layers
-on top of that base image.
-
-@josalvatorre thinks this limitation of being unable to build base images is because
-Bazel's hermeticity restriction would make it extremely difficult to cover
-every use case that Dockerfile can cover. Dockerfiles can execute arbitrary code,
-making them more powerful but non-hermetic and incompatible with Bazel.
-
-You reference the base image using the ["oci pull" rule from `rules_oci`][4] at the monorepo root level.
-The pulling process is secured by checksum validation, so it should be impossible for Bazel
-to conume the wrong image.
-
 ## Design
 
 ### Requirements
 
-We need a system to automatically create OCI images and upload them into a public ECR repository
-for Bazel to consume. The ECR repository should be public so that anybody can run our code.
-
-The system must also manage our [AWS organization][3] and auth for engineers.
+The system must manage our [AWS organization][3] and auth access for engineers.
 Engineers should sign in and obtain credentials through the [AWS Identity Center][1].
-Creating a new AWS account should be a matter of code changes.
+Creating a new AWS account should involve code changes.
+Manual steps should only be necessary for approving changes.
 
 Terraform code should define our infrastructure.
-The deployment should happen in a predefined environment,
-preferably in a container so that an engineer can develop locally.
+
+We should offer guardrails to prevent bad PR's from getting merged.
+This should ideally be a "dry run" that gives authors a preview of what their code change will do.
 
 ### Workflows
 
-Our GitHub Actions workflows should be able to do the following.
+GitHub Actions should implement the build guardrails. It's not immediately clear what options we have for this,
+so let's defer that for later. TODO @josalvatorre
 
-* Block PR merge if the base image fails to build.
-* On merge, re-build and push the new OCI image to the public ECR repository.
-* Deploy Terraform code to manage the AWS organization after pushing the image.
+We'll leverage HCP Terraform's [VCS-driven workflow option][4]. This allows us to easily trigger deployments based on
+code changes and human review. It also makes it easy to trigger "speculative plans" to preview changes before merging them.
 
-#### Testing
+#### Why not the CLI-driven workflow option? 
 
-Testing the images isn't necessary because they will only get used once Bazel consumes them.
-Our tests will run on any images that Bazel creates. That's out of the scope of Genesis.
-We'll probably decide to deploy those Bazel-built images in a separate workflow system,
-such as AWS CodePipeline.
+We originally wanted this option for the local development benefit. We planned to use a container image and GitHub Actions
+to trigger Terraform deployments. The container image would've made it easy to test locally.
 
-Testing Terraform code would have some value, especially for auth, which is critical and could fail silently.
-However, unit tests have limited value for testing Terraform,
-and integration tests would take immense effort and (possibly) cost.
-Genesis should handle very little Terraform code, making it easy to inspect manually.
-We will inspect deployments manually for now.
+This turned out to have several serious downsides.
 
-#### Why not use AWS CodePipeline defined in Terraform?
-
-We're already embracing Terraform and AWS, so implementing CI/CD using AWS CodePipeline would
-absolve the need to add another technology (i.e., GitHub Actions) to our tech stack.
-
-However, using AWS CodePipeline to make Terraform deployments to the AWS organization
-would cause a circular dependency. If the pipeline breaks,
-it may not be able to deploy a fix to itself. GitHub Actions doesn't have this problem
-because GitHub is responsible for deploying changes to the workflow.
-
-We can still use AWS CodePipeline for all other pipeline use cases.
+* Long-lived credentials.
+    * The CLI-driven workflow option required long-lived credentials to access HCP Terraform. This is inherently less secure.
+* Chicken-and-egg auth hell.
+    * Setting this up would've required solving several circular dependencies.
+        * We need to set up AWS auth before Terraform can manage AWS resources,
+        but we want Terraform to manage AWS resources (including auth).
+        * We want Terraform to run in a container,
+        but we want Terraform to define the ECR repositories that host the container images.
+    * These are solvable by doing some things manually and coming back to automate them,
+    but it would've been quite painful.
+* Multiple container images.
+    * We would've needed 2+ different images.
+        * 1+ images to run the Terraform deployment.
+            * One image for each command.
+            * These would use Google's distroless images.
+        * 1 image for debugging.
+            * The distroless images don't come with basic debugging tools like a shell.
+        * 1 image for development.
+            * If you want to run Neovim, you'd be better off with an Ubuntu base image.
+* Setting up AWS auth for GitHub Actions.
+    * GitHub Actions was the best option for the CLI-driven workflow option because it would avoid a circular dependency
+    between the workflow and the Terraform deployment.
+        * For example, if we used a Terraform-deployed AWS CodePipeline, and we accidentally broke that pipeline,
+        then how would we fix the pipeline without manual intervention?
+    * Setting up auth would've been annoying.
+        * The most secure option would've been to set up [OIDC between AWS and GitHub Actions][7].
+        * It wouldn't have been that hard, but the VCS approach completely eliminates the need for this.
 
 ### The AWS organization
 
@@ -90,44 +83,29 @@ Having an organization allows us to create new accounts dynamically using Terraf
 It also allows us to enforce policies and manage auth across accounts.
 
 The organization will evolve based on our needs.
-However, we only need the following simple structure to set up Genesis.
+The only requirements we need to start out are the following.
 
-* @josalvatorre should be able to log into the different accounts through the identity center.
-* We should have a dedicated AWS account for our public ECR repositories. This should **_not_**
-be the same as the root account.
+* Engineers (just @josalvatorre for now) should be able to log into the identity center.
+* Access should be controlled in the Terraform code.
 
 ## Implementation plan
-
-### Problem
-
-We face a chicken-and-egg problem because we need to set up AWS auth
-before Terraform can manage AWS resources, but we want Terraform to manage AWS resources (including auth).
-We also want Terraform to run in a container, but Terraform needs to define the ECR repositories that host the container images.
-We'll resolve this by first manually setting up auth and the first image and then come back to automate these
-after Terraform deployments are automated.
-
-### Plan
 
 We'll perform the following steps in order.
 
 - [x] AWS organization and root account are set up.
-- [x] The public ECR repository is set up in a dedicated AWS account within the organization.
-- [ ] The main branch has code for the Engineer to build the final image manually.
-    * Codebase has a Dockerfile to build the first base image.
-    * The engineer has to manually build and push the image to the public ECR repository.
-    * Terraform code is in a Bazel package with GitHub-enforced linting.
-        * Linting should happen before and after each merge to the main branch.
-        * Terraform code can be trivial in this milestone.
-    * Codebase has Bazel and Terraform code to build the final image.
-- [ ] The main branch has code for an engineer to make a Terraform deployment manually.
-    * Terraform code should define the AWS organization and AWS repository.
-- [ ] GitHub Actions can automatically push new base images and make Terraform deployments.
-    * We wanted to separate the automatic pushing of base images into its own milestone.
-    * However, that requires authentication that we might want to set up with Terraform,
-    so we'll likely need to do them together.
+- [ ] VCS-driven workflow is set up for HCP Terraform to make deployments and preview changes.
+    * Terraform code can be trivial in this stage. No need to control any AWS resources.
+    * PR's should be blocked if the Terraform code is bad.
+    * Merges to the main branch should trigger a deployment with required human approval.
+- [ ] Terraform must have access to AWS.
+    * [We'll probably set up OIDC between AWS and Terraform.][8]
+- [ ] Terraform should import the AWS organization.
+    * The Terraform code should define the AWS organization.
 
 [1]: https://aws.amazon.com/iam/identity-center/
-[2]: https://github.com/bazel-contrib/rules_oci
 [3]: https://docs.aws.amazon.com/organizations/
 [4]: https://github.com/bazel-contrib/rules_oci/blob/5ff4c792cab77011984ca2fe46d05c5d2f8caa47/docs/pull.md
 [5]: https://www.terraform.io/
+[6]: https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-vcs-change
+[7]: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+[8]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
