@@ -103,7 +103,6 @@ We'll perform the following steps in order.
     * The Terraform code should define the AWS organization.
 
 [1]: https://aws.amazon.com/iam/identity-center/
-[2]: https://github.com/bazel-contrib/rules_oci
 [3]: https://docs.aws.amazon.com/organizations/
 [4]: https://github.com/bazel-contrib/rules_oci/blob/5ff4c792cab77011984ca2fe46d05c5d2f8caa47/docs/pull.md
 [5]: https://www.terraform.io/
