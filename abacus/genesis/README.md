@@ -97,6 +97,7 @@ We'll perform the following steps in order.
     * Terraform code can be trivial in this stage. No need to control any AWS resources.
     * [PR's should be blocked if the Terraform code is bad.][9]
     * Merges to the main branch should trigger a deployment with required human approval.
+    * [There's a small line in the docs saying that the first run in a fresh workspace must be manual.][10]
 - [ ] Terraform must have access to AWS.
     * [We'll probably set up OIDC between AWS and Terraform.][8]
 - [ ] Terraform should import the AWS organization.
@@ -110,3 +111,4 @@ We'll perform the following steps in order.
 [7]: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 [8]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
 [9]: https://developer.hashicorp.com/terraform/cloud-docs/run/ui#speculative-plans-on-pull-requests
+[10]: https://developer.hashicorp.com/terraform/cloud-docs/run/ui#manually-starting-runs
