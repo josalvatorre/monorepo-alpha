@@ -8,15 +8,10 @@ import {
 }
 
 resource "aws_organizations_organization" "org" {
+  # https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html
   feature_set = "ALL"
   aws_service_access_principals = [
-    "cloudtrail.amazonaws.com",
-    "config.amazonaws.com"
     "sso.amazonaws.com",
-  ]
-  enabled_policy_types = [
-    "SERVICE_CONTROL_POLICY",
-    "TAG_POLICY"
   ]
 }
 
@@ -40,13 +35,4 @@ resource "aws_organizations_account" "abacus_images" {
   name      = "abacus-images"
   email     = "the.abacus.app+images@gmail.com"
   role_name = "OrganizationAccountAccessRole"
-}
-
-resource "aws_iam_group" "engineers" {
-  name = "engineers"
-}
-
-resource "aws_iam_group_policy_attachment" "engineer_policies" {
-  group      = aws_iam_group.engineers.name
-  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
