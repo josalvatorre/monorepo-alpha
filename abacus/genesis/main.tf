@@ -32,6 +32,7 @@ import {
   id = "339712758060"
 }
 
+# This is the root account for the org.
 resource "aws_organizations_account" "abacus_org" {
   name      = "abacus-org"
   email     = "the.abacus.app@gmail.com"
