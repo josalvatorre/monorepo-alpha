@@ -95,7 +95,7 @@ We'll perform the following steps in order.
 - [x] AWS organization and root account are set up.
 - [ ] VCS-driven workflow is set up for HCP Terraform to make deployments and preview changes.
     * Terraform code can be trivial in this stage. No need to control any AWS resources.
-    * PR's should be blocked if the Terraform code is bad.
+    * [PR's should be blocked if the Terraform code is bad.][9]
     * Merges to the main branch should trigger a deployment with required human approval.
 - [ ] Terraform must have access to AWS.
     * [We'll probably set up OIDC between AWS and Terraform.][8]
@@ -109,3 +109,4 @@ We'll perform the following steps in order.
 [6]: https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-vcs-change
 [7]: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 [8]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
+[9]: https://developer.hashicorp.com/terraform/cloud-docs/run/ui#speculative-plans-on-pull-requests
