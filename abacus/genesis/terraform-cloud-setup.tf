@@ -25,7 +25,7 @@ resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
 # Required for authentication to AWS
 # https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
-  description = "Enable the Workload Identity integration for AWS."
+  description  = "Enable the Workload Identity integration for AWS."
   workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
 
   key      = "TFC_AWS_PROVIDER_AUTH"
@@ -37,7 +37,7 @@ resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
 # Required for authentication to AWS
 # https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "tfc_aws_role_arn" {
-  description = "The AWS role arn runs will use to authenticate."
+  description  = "The AWS role arn runs will use to authenticate."
   workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
 
   key      = "TFC_AWS_RUN_ROLE_ARN"
