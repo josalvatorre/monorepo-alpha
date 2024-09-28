@@ -12,4 +12,10 @@ terraform {
 
 module "aws" {
   source = "./aws"
+  # TODO Add input variables.
+}
+
+module "terraform_cloud" {
+  source = "./terraform-cloud"
+  # TODO Add input variables.
 }
