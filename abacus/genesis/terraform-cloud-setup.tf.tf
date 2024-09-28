@@ -22,9 +22,8 @@ resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
   project_id   = data.tfe_project.terraform_cloud_project.id
 }
 
-# The following variables must be set to allow runs
-# to authenticate to AWS.
-# https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable
+# Required for authentication to AWS
+# https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
   description = "Enable the Workload Identity integration for AWS."
   workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
@@ -35,11 +34,13 @@ resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
 
 }
 
+# Required for authentication to AWS
+# https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "tfc_aws_role_arn" {
   description = "The AWS role arn runs will use to authenticate."
   workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
 
   key      = "TFC_AWS_RUN_ROLE_ARN"
-  value    = aws_iam_role.tfc_role.arn
+  value    = aws_iam_role.terraform_cloud_role.arn
   category = "env"
 }
