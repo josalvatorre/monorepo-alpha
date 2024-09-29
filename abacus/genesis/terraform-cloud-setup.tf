@@ -9,16 +9,16 @@ https://github.com/hashicorp/terraform-dynamic-credentials-setup-examples/tree/5
 # Data source used to grab the project under which a workspace will be created.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/data-sources/project
 data "tfe_project" "terraform_cloud_project" {
-  name         = local.terraform_cloud_project_name
-  organization = local.terraform_cloud_organization_name
+  name         = terraform.cloud.workspaces.project
+  organization = terraform.cloud.organization
 }
 
 # Runs in this workspace will be automatically authenticated
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
-  name         = local.terraform_cloud_workspace_name
-  organization = local.terraform_cloud_organization_name
+  name         = terraform.cloud.workspaces.name
+  organization = terraform.cloud.organization
   project_id   = data.tfe_project.terraform_cloud_project.id
 }
 

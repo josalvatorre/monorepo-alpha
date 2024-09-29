@@ -1,9 +1,6 @@
 locals {
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
-  terraform_cloud_organization_name = "abacus_org"
-  terraform_cloud_project_name      = "default_project"
-  terraform_cloud_workspace_name    = "genesis"
 }
 
 terraform {
@@ -26,9 +23,10 @@ terraform {
   }
   # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
   cloud {
-    organization = local.terraform_cloud_organization_name
+    organization = "abacus_org"
     workspaces {
-      name = local.terraform_cloud_workspace_name
+      name    = "genesis"
+      project = "default_project"
     }
   }
 }
