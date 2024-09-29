@@ -24,6 +24,13 @@ terraform {
       version = "4.0.6"
     }
   }
+  # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
+  cloud {
+    organization = local.terraform_cloud_organization_name
+    workspaces {
+      name = local.terraform_cloud_workspace_name
+    }
+  }
 }
 
 provider "aws" {
