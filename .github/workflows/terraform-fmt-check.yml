@@ -5,17 +5,14 @@ on:
   push:
     branches:
       - main
-env:
-  TERRAFORM_DIRS: >
-    ["abacus/genesis"] # Add more directories here as needed, e.g.:
-    # ["abacus/genesis", "path/to/another/module"]
 jobs:
   terraform-fmt-check:
     name: Terraform Format Check
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory: ${{fromJson(env.TERRAFORM_DIRS)}}
+        directory:
+          - abacus/genesis
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
