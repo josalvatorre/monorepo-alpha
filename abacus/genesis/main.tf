@@ -13,7 +13,15 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.68.0"
+      version = "5.69.0"
+    }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "0.58.1"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.6"
     }
   }
 }
@@ -25,6 +33,8 @@ provider "aws" {
 provider "tfe" {
   hostname = local.terraform_cloud_hostname
 }
+
+provider "tls" {}
 
 import {
   to = aws_organizations_organization.org
