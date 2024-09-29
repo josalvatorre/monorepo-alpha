@@ -1,7 +1,7 @@
 ---
 name: Terraform Format Check
 on:
-  pull_request: null
+  pull_request:
   push:
     branches:
       - main
