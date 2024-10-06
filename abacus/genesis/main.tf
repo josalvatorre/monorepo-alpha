@@ -21,14 +21,15 @@ terraform {
       version = "4.0.6"
     }
   }
+  # TODO Add this back in when AWS auth is set up.
   # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
-  cloud {
-    organization = "abacus_org"
-    workspaces {
-      name    = "genesis"
-      project = "default_project"
-    }
-  }
+  # cloud {
+  #   organization = "abacus_org"
+  #   workspaces {
+  #     name    = "genesis"
+  #     project = "default_project"
+  #   }
+  # }
 }
 
 provider "aws" {
