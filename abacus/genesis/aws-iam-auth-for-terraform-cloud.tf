@@ -24,7 +24,6 @@ resource "aws_iam_openid_connect_provider" "terraform_iam_openid_provider" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role
 resource "aws_iam_role" "terraform_cloud_role" {
   name = "TerraformCloudRole"
-  # TODO There's surely a way to use JSON loader instead of a literal string.
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
