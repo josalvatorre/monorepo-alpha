@@ -5,16 +5,16 @@ locals {
 
 terraform {
   # At time of writing, we simply use the latest version of Terraform available on HCP Terraform.
-  required_version = ">= 1.9.6"
+  required_version = ">= 1.9.7"
   # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.69.0"
+      version = "5.70.0"
     }
     tfe = {
       source  = "hashicorp/tfe"
-      version = "0.58.1"
+      version = "0.59.1"
     }
     tls = {
       source  = "hashicorp/tls"
