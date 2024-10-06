@@ -1,11 +1,32 @@
+locals {
+  terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
+  terraform_cloud_hostname          = "app.terraform.io"
+}
+
 terraform {
   # At time of writing, we simply use the latest version of Terraform available on HCP Terraform.
-  required_version = ">= 1.9.6"
+  required_version = ">= 1.9.7"
   # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.68.0"
+      version = "5.70.0"
+    }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "0.59.1"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.6"
+    }
+  }
+  # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
+  cloud {
+    organization = "abacus_org"
+    workspaces {
+      name    = "genesis"
+      project = "default_project"
     }
   }
 }
@@ -13,6 +34,12 @@ terraform {
 provider "aws" {
   region = "us-west-1"
 }
+
+provider "tfe" {
+  hostname = local.terraform_cloud_hostname
+}
+
+provider "tls" {}
 
 import {
   to = aws_organizations_organization.org
