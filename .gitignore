@@ -1,5 +1,6 @@
 .env
 .env.leave
+.terraform/
 bazel-*
 blobs/
 manifest.json

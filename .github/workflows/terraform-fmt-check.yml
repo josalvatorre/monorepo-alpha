@@ -1,0 +1,44 @@
+---
+name: Terraform Format Check
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  terraform-fmt-check:
+    name: Terraform Format Check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory:
+          - abacus/genesis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive ./${{ matrix.directory }}
+      - name: Comment PR
+        uses: actions/github-script@v6
+        if: failure() && github.event_name == 'pull_request'
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: >
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Terraform \`fmt\` check failed in the \`${{ matrix.directory }}\` directory. Please run \`terraform fmt\` on your changes and push the updates.`
+            })
+  summarize:
+    name: Summarize Results
+    needs: terraform-fmt-check
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize
+        run: >
+          echo "Terraform format check failed in one or more directories."
+          echo "Please check the individual job results and make necessary corrections."
