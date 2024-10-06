@@ -41,5 +41,4 @@ jobs:
       - name: Summarize
         run: >
           echo "Terraform format check failed in one or more directories."
-
           echo "Please check the individual job results and make necessary corrections."
