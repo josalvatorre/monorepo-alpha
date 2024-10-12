@@ -2,9 +2,9 @@ locals {
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
   # TODO replace these with terraform.cloud.* references when we re-add the cloud block below.
-  terraform_cloud_organization      = "abacus_org"
-  terraform_cloud_project           = "default_project"
-  terraform_cloud_workspace         = "genesis"
+  terraform_cloud_organization = "abacus_org"
+  terraform_cloud_project      = "default_project"
+  terraform_cloud_workspace    = "genesis"
 }
 
 terraform {
