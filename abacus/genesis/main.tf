@@ -1,4 +1,5 @@
 locals {
+  the_abacus_app_email              = "the.abacus.app@gmail.com"
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
   # TODO replace these with terraform.cloud.* references when we re-add the cloud block below.
@@ -61,7 +62,7 @@ import {
 
 resource "aws_organizations_account" "abacus_org" {
   name      = "abacus-org"
-  email     = "the.abacus.app@gmail.com"
+  email     = local.the_abacus_app_email
   role_name = "OrganizationAccountAccessRole"
 }
 
@@ -81,12 +82,28 @@ import {
   id = "abacus_org"
 }
 
+resource "tfe_organization" "terraform_cloud_organization" {
+  name  = "abacus_org"
+  email = local.the_abacus_app_email
+}
+
 import {
   to = tfe_project.terraform_cloud_project
   id = "prj-ZCQTonyQt6mn3qQr"
 }
 
+resource "tfe_project" "terraform_cloud_project" {
+  name         = "default_project"
+  organization = tfe_organization.terraform_cloud_organization.name
+}
+
 import {
   to = tfe_workspace.terraform_cloud_genesis_workspace
   id = "ws-h7P1aXBjgAJQyuBg"
+}
+
+resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
+  name         = "genesis"
+  organization = tfe_organization.terraform_cloud_organization.name
+  project_id   = tfe_project.terraform_cloud_project.id
 }
