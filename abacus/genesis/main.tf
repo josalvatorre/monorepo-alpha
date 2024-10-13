@@ -76,34 +76,3 @@ resource "aws_organizations_account" "abacus_images" {
   email     = "the.abacus.app+images@gmail.com"
   role_name = "OrganizationAccountAccessRole"
 }
-
-import {
-  to = tfe_organization.terraform_cloud_organization
-  id = "abacus_org"
-}
-
-resource "tfe_organization" "terraform_cloud_organization" {
-  name  = "abacus_org"
-  email = local.the_abacus_app_email
-}
-
-import {
-  to = tfe_project.terraform_cloud_project
-  id = "prj-ZCQTonyQt6mn3qQr"
-}
-
-resource "tfe_project" "terraform_cloud_project" {
-  name         = "default_project"
-  organization = tfe_organization.terraform_cloud_organization.name
-}
-
-import {
-  to = tfe_workspace.terraform_cloud_genesis_workspace
-  id = "ws-h7P1aXBjgAJQyuBg"
-}
-
-resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
-  name         = "genesis"
-  organization = tfe_organization.terraform_cloud_organization.name
-  project_id   = tfe_project.terraform_cloud_project.id
-}

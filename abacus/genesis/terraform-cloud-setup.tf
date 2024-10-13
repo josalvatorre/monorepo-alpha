@@ -6,11 +6,31 @@ Adapted from
 https://github.com/hashicorp/terraform-dynamic-credentials-setup-examples/tree/5308cd970c0832f2180d7eb1e645dea33c4e344c/aws
 */
 
+import {
+  to = tfe_organization.terraform_cloud_organization
+  id = "abacus_org"
+}
+
+resource "tfe_organization" "terraform_cloud_organization" {
+  name  = "abacus_org"
+  email = local.the_abacus_app_email
+}
+
+import {
+  to = tfe_project.terraform_cloud_project
+  id = "prj-ZCQTonyQt6mn3qQr"
+}
+
 # Data source used to grab the project under which a workspace will be created.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/data-sources/project
 data "tfe_project" "terraform_cloud_project" {
   name         = local.terraform_cloud_project
   organization = local.terraform_cloud_organization
+}
+
+import {
+  to = tfe_workspace.terraform_cloud_genesis_workspace
+  id = "ws-h7P1aXBjgAJQyuBg"
 }
 
 # Runs in this workspace will be automatically authenticated
