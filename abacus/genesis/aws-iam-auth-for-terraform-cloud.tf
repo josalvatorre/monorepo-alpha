@@ -46,30 +46,46 @@ resource "aws_iam_role" "terraform_cloud_role" {
   })
 }
 
-# Creates a policy that will be used to define the permissions that
-# the previously created role has within AWS.
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-resource "aws_iam_policy" "terraform_cloud_iam_policy" {
-  name        = "TerraformCloudIamPolicy"
-  description = "Terraform Choud run policy"
+# "Provides full access to AWS services and resources, but does not allow management of Users and groups."
+# https://docs.aws.amazon.com/aws-managed-policy/latest/reference/PowerUserAccess.html
+resource "aws_iam_role_policy_attachment" "terraform_cloud_power_user_policy_attachment" {
+  role       = aws_iam_role.terraform_cloud_role.name
+  policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
+}
+
+# "Provides full access to IAM via the AWS Management Console."
+# https://docs.aws.amazon.com/aws-managed-policy/latest/reference/IAMFullAccess.html
+resource "aws_iam_role_policy_attachment" "terraform_cloud_iam_policy_attachment" {
+  role       = aws_iam_role.terraform_cloud_role.name
+  policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
+}
+
+# https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSOrganizationsFullAccess.html
+resource "aws_iam_role_policy_attachment" "terraform_cloud_organizations_policy_attachment" {
+  role       = aws_iam_role.terraform_cloud_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSOrganizationsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "terraform_cloud_deny_s3_deletions_attachment" {
+  role       = aws_iam_role.terraform_cloud_role.name
+  policy_arn = aws_iam_policy.deny_s3_deletions.arn
+}
+
+resource "aws_iam_policy" "deny_s3_deletions" {
+  name        = "DenyS3Deletions"
+  description = "Denies deletion of S3 buckets and objects"
   policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
+    Version = "2012-10-17"
+    Statement = [
       {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:ListBucket"
-        ],
-        "Resource" : "*"
+        Effect = "Deny"
+        Action = [
+          "s3:DeleteBucket",
+          "s3:DeleteObject",
+          "s3:DeleteObjectVersion"
+        ]
+        Resource = "*"
       }
     ]
   })
-}
-
-# Creates an attachment to associate the above policy with the
-# previously created role.
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "terraform_cloud_iam_policy_attachment" {
-  role       = aws_iam_role.terraform_cloud_role.name
-  policy_arn = aws_iam_policy.terraform_cloud_iam_policy.arn
 }
