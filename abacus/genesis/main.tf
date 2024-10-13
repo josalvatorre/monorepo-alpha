@@ -75,3 +75,18 @@ resource "aws_organizations_account" "abacus_images" {
   email     = "the.abacus.app+images@gmail.com"
   role_name = "OrganizationAccountAccessRole"
 }
+
+import {
+  to = tfe_organization.terraform_cloud_organization
+  id = "abacus_org"
+}
+
+import {
+  to = tfe_project.terraform_cloud_project
+  id = "prj-ZCQTonyQt6mn3qQr"
+}
+
+import {
+  to = tfe_workspace.terraform_cloud_genesis_workspace
+  id = "ws-h7P1aXBjgAJQyuBg"
+}
