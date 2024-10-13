@@ -21,11 +21,9 @@ import {
   id = "prj-ZCQTonyQt6mn3qQr"
 }
 
-# Data source used to grab the project under which a workspace will be created.
-# https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/data-sources/project
-data "tfe_project" "terraform_cloud_project" {
-  name         = local.terraform_cloud_project
-  organization = local.terraform_cloud_organization
+resource "tfe_project" "terraform_cloud_project" {
+  name         = "default_project"
+  organization = tfe_organization.terraform_cloud_organization.name
 }
 
 import {
@@ -39,7 +37,7 @@ import {
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
   name         = local.terraform_cloud_workspace
   organization = local.terraform_cloud_organization
-  project_id   = data.tfe_project.terraform_cloud_project.id
+  project_id   = tfe_project.terraform_cloud_project.id
 }
 
 # Required for authentication to AWS
