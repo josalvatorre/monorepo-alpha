@@ -61,9 +61,8 @@ import {
 }
 
 resource "aws_organizations_account" "abacus_org" {
-  name      = "abacus-org"
-  email     = local.the_abacus_app_email
-  role_name = "OrganizationAccountAccessRole"
+  name  = "abacus-org"
+  email = local.the_abacus_app_email
 }
 
 import {
@@ -72,7 +71,6 @@ import {
 }
 
 resource "aws_organizations_account" "abacus_images" {
-  name      = "abacus-images"
-  email     = "the.abacus.app+images@gmail.com"
-  role_name = "OrganizationAccountAccessRole"
+  name  = "abacus-images"
+  email = "the.abacus.app+images@gmail.com"
 }
