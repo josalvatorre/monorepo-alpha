@@ -28,14 +28,18 @@ terraform {
       source  = "hashicorp/tfe"
       version = "0.59.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.6"
+    }
   }
 }
 
+provider "tfe" {}
+provider "tls" {}
 provider "aws" {
   region = "us-west-1"
 }
-
-provider "tfe" {}
 
 import {
   to = aws_organizations_organization.org
