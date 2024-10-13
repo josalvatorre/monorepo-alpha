@@ -35,9 +35,15 @@ import {
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
-  name         = local.terraform_cloud_workspace
-  organization = local.terraform_cloud_organization
-  project_id   = tfe_project.terraform_cloud_project.id
+  name              = local.terraform_cloud_workspace
+  organization      = local.terraform_cloud_organization
+  project_id        = tfe_project.terraform_cloud_project.id
+  working_directory = "abacus/genesis"
+  vcs_repo {
+    branch                     = null
+    github_app_installation_id = "ghain-1ByhkGkwQgB5bkex"
+    identifier                 = "josalvatorre/monorepo-alpha"
+  }
 }
 
 # Required for authentication to AWS
