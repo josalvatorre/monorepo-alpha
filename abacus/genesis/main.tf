@@ -19,11 +19,23 @@ terraform {
   #     project = "default_project"
   #   }
   # }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.71.0"
+    }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "0.59.0"
+    }
+  }
 }
 
 provider "aws" {
   region = "us-west-1"
 }
+
+provider "tfe" {}
 
 import {
   to = aws_organizations_organization.org
