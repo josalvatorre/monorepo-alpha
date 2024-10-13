@@ -5,3 +5,5 @@ bazel-*
 blobs/
 manifest.json
 venv/
+terraform.tfstate
+terraform.tfstate.backup
