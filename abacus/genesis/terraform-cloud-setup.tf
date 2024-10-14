@@ -18,12 +18,13 @@ resource "tfe_organization" "terraform_cloud_organization" {
 
 import {
   to = tfe_project.terraform_cloud_project
-  id = "prj-ZCQTonyQt6mn3qQr"
+  id = local.terraform_cloud_project_id
 }
 
 resource "tfe_project" "terraform_cloud_project" {
   name         = local.terraform_cloud_project
   organization = tfe_organization.terraform_cloud_organization.name
+  id           = local.terraform_cloud_project_id
 }
 
 import {

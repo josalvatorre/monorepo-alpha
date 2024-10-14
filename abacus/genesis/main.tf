@@ -5,6 +5,7 @@ locals {
   terraform_cloud_organization      = "abacus_org"
   terraform_cloud_project           = "default_project"
   terraform_cloud_workspace         = "genesis"
+  terraform_cloud_project_id        = "prj-ZCQTonyQt6mn3qQr"
 }
 
 terraform {
