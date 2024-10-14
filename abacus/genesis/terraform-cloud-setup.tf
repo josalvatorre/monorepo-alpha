@@ -8,11 +8,11 @@ https://github.com/hashicorp/terraform-dynamic-credentials-setup-examples/tree/5
 
 import {
   to = tfe_organization.terraform_cloud_organization
-  id = "abacus_org"
+  id = local.terraform_cloud_organization
 }
 
 resource "tfe_organization" "terraform_cloud_organization" {
-  name  = "abacus_org"
+  name  = local.terraform_cloud_organization
   email = local.the_abacus_app_email
 }
 
@@ -22,7 +22,7 @@ import {
 }
 
 resource "tfe_project" "terraform_cloud_project" {
-  name         = "default_project"
+  name         = local.terraform_cloud_project
   organization = tfe_organization.terraform_cloud_organization.name
 }
 
