@@ -60,13 +60,27 @@ resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
 
 }
 
+moved {
+  from = tfe_variable.tfc_aws_role_arn
+  to   = tfe_variable.terraform_cloud_aws_role_arn
+}
+
 # Required for authentication to AWS
 # https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
-resource "tfe_variable" "tfc_aws_role_arn" {
+resource "tfe_variable" "terraform_cloud_aws_role_arn" {
   description  = "The AWS role arn runs will use to authenticate."
   workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
 
   key      = "TFC_AWS_RUN_ROLE_ARN"
   value    = aws_iam_role.terraform_cloud_role.arn
+  category = "env"
+}
+
+resource "tfe_variable" "terraform_cloud_tfc_aws_audience" {
+  description  = "The value to use as the audience claim in run identity tokens"
+  workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
+
+  key      = "TFC_AWS_WORKLOAD_IDENTITY_AUDIENCE"
+  value    = local.terraform_cloud_aws_oidc_audience
   category = "env"
 }
