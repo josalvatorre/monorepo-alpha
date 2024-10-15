@@ -1,9 +1,10 @@
 .env
 .env.leave
+.terraform.lock.hcl
 .terraform/
 bazel-*
 blobs/
 manifest.json
-venv/
 terraform.tfstate
 terraform.tfstate.backup
+venv/
