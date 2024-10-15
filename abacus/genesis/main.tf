@@ -34,11 +34,15 @@ terraform {
   }
 }
 
-provider "tfe" {}
-provider "tls" {}
 provider "aws" {
   region = "us-west-1"
 }
+
+provider "tfe" {
+  hostname = local.terraform_cloud_hostname
+}
+
+provider "tls" {}
 
 import {
   to = aws_organizations_organization.org
