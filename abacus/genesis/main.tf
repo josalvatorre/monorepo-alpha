@@ -9,7 +9,7 @@ locals {
 
 terraform {
   # At time of writing, we simply use the latest version of Terraform available on HCP Terraform.
-  required_version = ">= 1.9.7"
+  required_version = ">= 1.9.8"
   # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
   cloud {
     organization = "abacus_org"
@@ -21,7 +21,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.71.0"
+      version = "5.74.0"
     }
     tfe = {
       source  = "hashicorp/tfe"
