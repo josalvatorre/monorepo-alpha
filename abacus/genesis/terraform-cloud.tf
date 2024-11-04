@@ -11,14 +11,14 @@ import {
   id = local.terraform_cloud_organization
 }
 
-resource "tfe_organization" "terraform_cloud_organization" {
+resource "tfe_organization" "abacus_org" {
   name  = local.terraform_cloud_organization
   email = local.the_abacus_app_email
 }
 
-resource "tfe_project" "terraform_cloud_project" {
+resource "tfe_project" "genesis_default_project" {
   name         = "genesis_default_project"
-  organization = tfe_organization.terraform_cloud_organization.name
+  organization = tfe_organization.abacus_org.name
 }
 
 import {
@@ -31,8 +31,8 @@ import {
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
   name                  = "genesis"
-  organization          = tfe_organization.terraform_cloud_organization.name
-  project_id            = tfe_project.terraform_cloud_project.id
+  organization          = tfe_organization.abacus_org.name
+  project_id            = tfe_project.genesis_default_project.id
   working_directory     = "abacus/genesis"
   file_triggers_enabled = false
   description           = "See description at https://github.com/josalvatorre/monorepo-alpha/tree/f41243576d015278683fa2d41b9f9a086e9a09fc/abacus/genesis"
