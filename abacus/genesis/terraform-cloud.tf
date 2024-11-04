@@ -22,7 +22,7 @@ moved {
 }
 
 moved {
-  from = tfe_workspace.terraform_cloud_genesis_workspace
+  from = tfe_workspace.genesis_workspace
   to   = tfe_workspace.genesis_workspace
 }
 
@@ -67,7 +67,7 @@ resource "tfe_workspace" "genesis_workspace" {
 # https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
   description  = "Enable the Workload Identity integration for AWS."
-  workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
+  workspace_id = tfe_workspace.genesis_workspace.id
 
   key      = "TFC_AWS_PROVIDER_AUTH"
   value    = "true"
@@ -79,7 +79,7 @@ resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
 # https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration#required-environment-variables
 resource "tfe_variable" "terraform_cloud_aws_role_arn" {
   description  = "The AWS role arn runs will use to authenticate."
-  workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
+  workspace_id = tfe_workspace.genesis_workspace.id
 
   key      = "TFC_AWS_RUN_ROLE_ARN"
   value    = aws_iam_role.terraform_cloud_role.arn
@@ -88,7 +88,7 @@ resource "tfe_variable" "terraform_cloud_aws_role_arn" {
 
 resource "tfe_variable" "terraform_cloud_tfc_aws_audience" {
   description  = "The value to use as the audience claim in run identity tokens"
-  workspace_id = tfe_workspace.terraform_cloud_genesis_workspace.id
+  workspace_id = tfe_workspace.genesis_workspace.id
 
   key      = "TFC_AWS_WORKLOAD_IDENTITY_AUDIENCE"
   value    = local.terraform_cloud_aws_oidc_audience
