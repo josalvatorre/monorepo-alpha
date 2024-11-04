@@ -6,6 +6,21 @@ Adapted from
 https://github.com/hashicorp/terraform-dynamic-credentials-setup-examples/tree/5308cd970c0832f2180d7eb1e645dea33c4e344c/aws
 */
 
+moved {
+  from = tfe_variable.tfc_aws_role_arn
+  to   = tfe_variable.terraform_cloud_aws_role_arn
+}
+
+moved {
+  from = tfe_organization.terraform_cloud_organization
+  to   = tfe_organization.abacus_org
+}
+
+moved {
+  from = tfe_project.terraform_cloud_project
+  to   = tfe_project.genesis_default_project
+}
+
 import {
   to = tfe_organization.terraform_cloud_organization
   id = local.terraform_cloud_organization
@@ -53,11 +68,6 @@ resource "tfe_variable" "terraform_cloud_enable_aws_provider_auth" {
   value    = "true"
   category = "env"
 
-}
-
-moved {
-  from = tfe_variable.tfc_aws_role_arn
-  to   = tfe_variable.terraform_cloud_aws_role_arn
 }
 
 # Required for authentication to AWS
