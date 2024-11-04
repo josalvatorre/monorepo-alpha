@@ -30,7 +30,7 @@ import {
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
-  name                  = local.terraform_cloud_workspace
+  name                  = "genesis"
   organization          = terraform_cloud_organization.name
   project_id            = tfe_project.terraform_cloud_project.id
   working_directory     = "abacus/genesis"
