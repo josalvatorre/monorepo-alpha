@@ -13,9 +13,7 @@ terraform {
     organization = "abacus_org"
     workspaces {
       name = "genesis"
-      # We wanted to use the default project, but Terraform Cloud failed to recognize it during deployments.
-      # It looks like a bug in Terraform Cloud.
-      project = "genesis_default_project"
+      project = "default_project"
     }
   }
   required_providers {

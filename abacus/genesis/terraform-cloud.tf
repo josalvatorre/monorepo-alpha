@@ -37,7 +37,7 @@ resource "tfe_organization" "abacus_org" {
 }
 
 resource "tfe_project" "genesis_default_project" {
-  name         = "genesis_default_project"
+  name         = "default_project"
   organization = tfe_organization.abacus_org.name
 }
 
