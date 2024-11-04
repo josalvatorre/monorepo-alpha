@@ -21,8 +21,13 @@ moved {
   to   = tfe_project.genesis_default_project
 }
 
+moved {
+  from = tfe_workspace.terraform_cloud_genesis_workspace
+  to   = tfe_workspace.genesis_workspace
+}
+
 import {
-  to = tfe_organization.terraform_cloud_organization
+  to = tfe_organization.abacus_org
   id = local.terraform_cloud_organization
 }
 
@@ -37,14 +42,14 @@ resource "tfe_project" "genesis_default_project" {
 }
 
 import {
-  to = tfe_workspace.terraform_cloud_genesis_workspace
+  to = tfe_workspace.genesis_workspace
   id = "ws-h7P1aXBjgAJQyuBg"
 }
 
 # Runs in this workspace will be automatically authenticated
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
-resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
+resource "tfe_workspace" "genesis_workspace" {
   name                  = "genesis"
   organization          = tfe_organization.abacus_org.name
   project_id            = tfe_project.genesis_default_project.id
