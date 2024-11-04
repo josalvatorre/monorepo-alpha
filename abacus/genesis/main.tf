@@ -2,7 +2,6 @@ locals {
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
   terraform_cloud_organization      = "abacus_org"
-  terraform_cloud_project           = "default_project"
   terraform_cloud_workspace         = "genesis"
   the_abacus_app_email              = "the.abacus.app@gmail.com"
 }
@@ -15,7 +14,9 @@ terraform {
     organization = "abacus_org"
     workspaces {
       name    = "genesis"
-      project = "default_project"
+      # We wanted to use the default project, but Terraform Cloud failed to recognize it during deployments.
+      # It looks like a bug in Terraform Cloud.
+      project = "genesis_default_project"
     }
   }
   required_providers {

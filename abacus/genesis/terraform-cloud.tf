@@ -16,13 +16,8 @@ resource "tfe_organization" "terraform_cloud_organization" {
   email = local.the_abacus_app_email
 }
 
-import {
-  to = tfe_project.terraform_cloud_project
-  id = "prj-ZCQTonyQt6mn3qQr"
-}
-
 resource "tfe_project" "terraform_cloud_project" {
-  name         = local.terraform_cloud_project
+  name         = terraform.cloud.workspaces.project
   organization = tfe_organization.terraform_cloud_organization.name
 }
 
@@ -35,8 +30,8 @@ import {
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "terraform_cloud_genesis_workspace" {
-  name                  = local.terraform_cloud_workspace
-  organization          = local.terraform_cloud_organization
+  name                  = terraform.cloud.workspaces.name
+  organization          = terraform.cloud.organization
   project_id            = tfe_project.terraform_cloud_project.id
   working_directory     = "abacus/genesis"
   file_triggers_enabled = false

@@ -38,7 +38,7 @@ resource "aws_iam_role" "terraform_cloud_role" {
             "${local.terraform_cloud_hostname}:aud" : one(aws_iam_openid_connect_provider.terraform_iam_openid_provider.client_id_list)
           },
           "StringLike" : {
-            "${local.terraform_cloud_hostname}:sub" : "organization:${local.terraform_cloud_organization}:project:${local.terraform_cloud_project}:workspace:${local.terraform_cloud_workspace}:run_phase:*"
+            "${local.terraform_cloud_hostname}:sub" : "organization:${local.terraform_cloud_organization}:project:${terraform.cloud.workspaces.project}:workspace:${local.terraform_cloud_workspace}:run_phase:*"
           }
         }
       }
