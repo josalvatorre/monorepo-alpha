@@ -22,7 +22,7 @@ moved {
 }
 
 moved {
-  from = tfe_workspace.genesis_workspace
+  from = tfe_workspace.terraform_cloud_genesis_workspace
   to   = tfe_workspace.genesis_workspace
 }
 
