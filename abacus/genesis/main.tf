@@ -2,26 +2,26 @@ locals {
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
   terraform_cloud_organization      = "abacus_org"
-  terraform_cloud_project           = "default_project"
-  terraform_cloud_workspace         = "genesis"
   the_abacus_app_email              = "the.abacus.app@gmail.com"
 }
 
 terraform {
   # At time of writing, we simply use the latest version of Terraform available on HCP Terraform.
-  required_version = ">= 1.9.7"
+  required_version = ">= 1.9.8"
   # https://developer.hashicorp.com/terraform/language/terraform#terraform-cloud
   cloud {
     organization = "abacus_org"
     workspaces {
-      name    = "genesis"
-      project = "default_project"
+      name = "genesis"
+      # We wanted to use the default project, but Terraform Cloud failed to recognize it during deployments.
+      # It looks like a bug in Terraform Cloud.
+      project = "genesis_default_project"
     }
   }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.71.0"
+      version = "5.74.0"
     }
     tfe = {
       source  = "hashicorp/tfe"
