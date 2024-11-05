@@ -37,6 +37,11 @@ import {
 }
 
 import {
+  to = tfe_project.genesis_default_project
+  id = "prj-ZCQTonyQt6mn3qQr"
+}
+
+import {
   to = tfe_team.owners
   id = "${local.terraform_cloud_organization}/${local.terraform_team_id}"
 }
