@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "abacus_org"
     workspaces {
-      name = "genesis"
+      name    = "genesis"
       project = "default_project"
     }
   }
