@@ -2,6 +2,7 @@ locals {
   terraform_cloud_aws_oidc_audience = "terraform-cloud.aws-workload-identity"
   terraform_cloud_hostname          = "app.terraform.io"
   terraform_cloud_organization      = "abacus_org"
+  terraform_genesis_workspace_name  = "genesis"
   terraform_team_id                 = "team-mhg9S6Zc3jBZ6Q8G"
   the_abacus_app_email              = "the.abacus.app@gmail.com"
 }
