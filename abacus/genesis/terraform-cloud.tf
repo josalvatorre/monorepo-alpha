@@ -46,6 +46,21 @@ import {
   id = "${local.terraform_cloud_organization}/${local.terraform_team_id}"
 }
 
+import {
+  to = tfe_variable.terraform_cloud_enable_aws_provider_auth
+  id = "${local.terraform_cloud_organization}/TFC_AWS_PROVIDER_AUTH"
+}
+
+import {
+  to = tfe_variable.terraform_cloud_aws_role_arn
+  id = "${local.terraform_cloud_organization}/TFC_AWS_RUN_ROLE_ARN"
+}
+
+import {
+  to = tfe_variable.terraform_cloud_tfc_aws_audience
+  id = "${local.terraform_cloud_organization}/TFC_AWS_WORKLOAD_IDENTITY_AUDIENCE"
+}
+
 resource "tfe_organization" "abacus_org" {
   name  = local.terraform_cloud_organization
   email = local.the_abacus_app_email
