@@ -31,6 +31,16 @@ import {
   id = local.terraform_cloud_organization
 }
 
+import {
+  to = tfe_workspace.genesis_workspace
+  id = "ws-h7P1aXBjgAJQyuBg"
+}
+
+import {
+  to = tfe_team.owners
+  id = "${local.terraform_cloud_organization}/${local.terraform_team_id}"
+}
+
 resource "tfe_organization" "abacus_org" {
   name  = local.terraform_cloud_organization
   email = local.the_abacus_app_email
@@ -41,9 +51,9 @@ resource "tfe_project" "genesis_default_project" {
   organization = tfe_organization.abacus_org.name
 }
 
-import {
-  to = tfe_workspace.genesis_workspace
-  id = "ws-h7P1aXBjgAJQyuBg"
+resource "tfe_team" "owners" {
+  name         = "owners"
+  organization = tfe_organization.abacus_org.name
 }
 
 # Runs in this workspace will be automatically authenticated
