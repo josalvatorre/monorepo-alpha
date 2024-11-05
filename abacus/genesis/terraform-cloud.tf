@@ -48,17 +48,17 @@ import {
 
 import {
   to = tfe_variable.terraform_cloud_enable_aws_provider_auth
-  id = "${local.terraform_cloud_organization}/TFC_AWS_PROVIDER_AUTH"
+  id = "${local.terraform_cloud_organization}/${local.terraform_genesis_workspace_name}/TFC_AWS_PROVIDER_AUTH"
 }
 
 import {
   to = tfe_variable.terraform_cloud_aws_role_arn
-  id = "${local.terraform_cloud_organization}/TFC_AWS_RUN_ROLE_ARN"
+  id = "${local.terraform_cloud_organization}/${local.terraform_genesis_workspace_name}/TFC_AWS_RUN_ROLE_ARN"
 }
 
 import {
   to = tfe_variable.terraform_cloud_tfc_aws_audience
-  id = "${local.terraform_cloud_organization}/TFC_AWS_WORKLOAD_IDENTITY_AUDIENCE"
+  id = "${local.terraform_cloud_organization}/${local.terraform_genesis_workspace_name}/TFC_AWS_WORKLOAD_IDENTITY_AUDIENCE"
 }
 
 resource "tfe_organization" "abacus_org" {
@@ -80,7 +80,7 @@ resource "tfe_team" "owners" {
 # to AWS with the permissions set in the AWS policy.
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace
 resource "tfe_workspace" "genesis_workspace" {
-  name                  = "genesis"
+  name                  = local.terraform_genesis_workspace_name
   organization          = tfe_organization.abacus_org.name
   project_id            = tfe_project.genesis_default_project.id
   working_directory     = "abacus/genesis"
