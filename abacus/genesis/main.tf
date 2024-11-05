@@ -39,7 +39,7 @@ provider "aws" {
 
 provider "tfe" {
   hostname = local.terraform_cloud_hostname
-  token    = var.tfe_token
+  token    = var.TFE_TOKEN
 }
 
 provider "tls" {}

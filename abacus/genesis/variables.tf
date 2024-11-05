@@ -1,6 +1,6 @@
 # At time of writing, there's no easy way to create an auto-rotating Terraform Enterprise API token.
 # We'll have to constantly mint new ones.
-variable "tfe_token" {
+variable "TFE_TOKEN" {
   type        = string
   sensitive   = true
   description = <<-EOT
@@ -9,7 +9,7 @@ variable "tfe_token" {
   EOT
 
   validation {
-    condition     = length(var.tfe_token) > 0
+    condition     = length(var.TFE_TOKEN) > 0
     error_message = "TFE_TOKEN must be set. Please provide a valid Terraform Enterprise API token."
   }
 }
