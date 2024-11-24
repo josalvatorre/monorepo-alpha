@@ -25,8 +25,8 @@ which is simpler than SST and uses a simpler declarative language than SST.
 
 The system must manage our [AWS organization][3] and auth access for engineers.
 Engineers should sign in and obtain credentials through the [AWS Identity Center][1].
-Creating a new AWS account should involve code changes.
-Manual steps should only be necessary for approving changes.
+Creating a new AWS account should involve code changes, not manual operations.
+Manual operations should only be necessary for approving changes.
 
 Terraform code should define our infrastructure.
 
@@ -67,14 +67,6 @@ This turned out to have several serious downsides.
             * The distroless images don't come with basic debugging tools like a shell.
         * 1 image for development.
             * If you want to run Neovim, you'd be better off with an Ubuntu base image.
-* Setting up AWS auth for GitHub Actions.
-    * GitHub Actions was the best option for the CLI-driven workflow option because it would avoid a circular dependency
-    between the workflow and the Terraform deployment.
-        * For example, if we used a Terraform-deployed AWS CodePipeline, and we accidentally broke that pipeline,
-        then how would we fix the pipeline without manual intervention?
-    * Setting up auth would've been annoying.
-        * The most secure option would've been to set up [OIDC between AWS and GitHub Actions][7].
-        * It wouldn't have been that hard, but the VCS approach completely eliminates the need for this.
 
 ### The AWS organization
 
@@ -98,9 +90,9 @@ We'll perform the following steps in order.
     * [PR's should be blocked if the Terraform code is bad.][9]
     * Merges to the main branch should trigger a deployment with required human approval.
     * [There's a small line in the docs saying that the first run in a fresh workspace must be manual.][10]
-- [ ] Terraform must have access to AWS.
+- [x] Terraform must have access to AWS.
     * [We'll probably set up OIDC between AWS and Terraform.][8]
-- [ ] Terraform should import the AWS organization.
+- [x] Terraform should import the AWS organization.
     * The Terraform code should define the AWS organization.
 
 [1]: https://aws.amazon.com/iam/identity-center/
@@ -108,7 +100,6 @@ We'll perform the following steps in order.
 [4]: https://github.com/bazel-contrib/rules_oci/blob/5ff4c792cab77011984ca2fe46d05c5d2f8caa47/docs/pull.md
 [5]: https://www.terraform.io/
 [6]: https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-vcs-change
-[7]: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 [8]: https://developer.hashicorp.com/terraform/enterprise/workspaces/dynamic-provider-credentials/aws-configuration
 [9]: https://developer.hashicorp.com/terraform/cloud-docs/run/ui#speculative-plans-on-pull-requests
 [10]: https://developer.hashicorp.com/terraform/cloud-docs/run/ui#manually-starting-runs
